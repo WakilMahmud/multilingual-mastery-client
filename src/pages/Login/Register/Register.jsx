@@ -1,27 +1,29 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Swal from "sweetalert2";
 import { getAuth, updateProfile } from "firebase/auth";
-import registerImg from "../../../assets/react.svg";
 
 const auth = getAuth();
 
 const Register = () => {
-	const { createUser, logOut } = useContext(AuthContext);
-	const [passwordError, setPasswordError] = useState("");
+	const { createUser, logOut, googleLogin } = useContext(AuthContext);
 
-	const { register, handleSubmit, reset } = useForm();
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/";
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm();
 
 	const onSubmit = (data) => {
 		// console.log(data);
-
-		if (data.password.length < 6) {
-			setPasswordError("Password must be at least 6 characters");
-			return;
-		}
 
 		createUser(data.email, data.password)
 			.then((result) => {
@@ -51,7 +53,6 @@ const Register = () => {
 						});
 					});
 
-				setPasswordError("");
 				reset();
 			})
 			.catch((error) => {
@@ -64,36 +65,66 @@ const Register = () => {
 				});
 			});
 	};
+
+	const handleGoogleLogin = () => {
+		// console.log("Clicked Google");
+		googleLogin()
+			.then((result) => {
+				// The signed-in user info.
+				const user = result.user;
+				console.log(user);
+				navigate(from, { replace: true });
+			})
+			.catch((error) => {
+				Swal.fire({
+					icon: "error",
+					title: "Oops...",
+					text: error.message,
+				});
+			});
+	};
 	return (
-		<>
-			<div className="flex flex-col lg:flex-row gap-4 my-32">
-				<div className="flex flex-col justify-center items-center w-full lg:w-2/5 border rounded order-2">
-					<h1 className="text-3xl font-extrabold ">Register</h1>
-					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col mx-auto my-10 space-y-4 w-3/5">
-						{/* register your input into the hook by invoking the "register" function */}
-						<input placeholder="Enter your name" className="border rounded p-2" {...register("name")} />
-						<input type="email" placeholder="Enter your email" className="border rounded p-2" {...register("email")} required />
+		<div className="flex justify-center">
+			<div className="flex flex-col justify-center items-center my-32 w-full lg:w-2/5 border py-10 rounded">
+				<h1 className="text-3xl font-extrabold mb-8">Register</h1>
+				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-3/4 mx-auto  space-y-4">
+					<input placeholder="Enter your name" className="border rounded p-2" {...register("name")} />
+					<input type="email" placeholder="Enter your email" className="border rounded p-2" {...register("email")} required />
 
-						<input type="password" placeholder="Enter your password" className="border rounded p-2" {...register("password")} required />
-						{passwordError && <small className="text-red-500">{passwordError}</small>}
-						<input placeholder="Photo URL" className="border rounded p-2" {...register("photo")} />
+					<input
+						type="password"
+						{...register("password", {
+							required: true,
+							minLength: 6,
+							pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{6,}$/,
+						})}
+						placeholder="password"
+						className="input input-bordered"
+						required
+					/>
 
-						<input className="btn btn-info rounded-full" type="submit" value="Register" />
+					{errors.password?.type === "minLength" && <p className="text-red-600">Password must be 6 characters</p>}
+					{errors.password?.type === "pattern" && (
+						<p className="text-red-600">Password must have one Uppercase, one lower case, one number and one special character.</p>
+					)}
+					<input type="password" placeholder="Confirm password" className="border rounded p-2" {...register("confirm_password")} required />
+					<input placeholder="Photo URL" className="border rounded p-2" {...register("photo")} />
 
-						<p>
-							Already have an account?
-							<Link to="/login">
-								<button className="btn btn-active btn-link">Login</button>
-							</Link>
-						</p>
-					</form>
-				</div>
+					<input className="btn btn-info rounded-full" type="submit" value="Register" />
 
-				<div className="w-full lg:w-1/2 order-1">
-					<img className="w-full" src={registerImg} alt="Register Image" />
-				</div>
+					<p>
+						Already have an account?
+						<Link to="/login">
+							<button className="btn btn-active btn-link">Login</button>
+						</Link>
+					</p>
+				</form>
+				<div className="divider w-full ">OR</div>
+				<button className="btn btn-warning w-3/4 rounded-full" onClick={handleGoogleLogin}>
+					Sign in with Google
+				</button>
 			</div>
-		</>
+		</div>
 	);
 };
 
