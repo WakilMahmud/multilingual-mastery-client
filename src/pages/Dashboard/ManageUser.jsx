@@ -1,4 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+
+import Swal from "sweetalert2";
 // import { useEffect, useState } from "react";
 
 const ManageUser = () => {
@@ -19,6 +21,46 @@ const ManageUser = () => {
 			return res.json();
 		},
 	});
+
+	const handleMakeAdmin = (user) => {
+		console.log(user);
+		fetch(`http://localhost:5000/users/admin/${user._id}`, {
+			method: "PATCH",
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				if (data.modifiedCount) {
+					refetch();
+					Swal.fire({
+						icon: "success",
+						title: `${user.name} is an Admin Now!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
+
+	const handleMakeInstructor = (user) => {
+		console.log(user);
+		fetch(`http://localhost:5000/users/instructor/${user._id}`, {
+			method: "PATCH",
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				if (data.modifiedCount) {
+					refetch();
+					Swal.fire({
+						icon: "success",
+						title: `${user.name} is an Instructor Now!`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+	};
 
 	return (
 		<div className="overflow-x-auto">
@@ -52,8 +94,12 @@ const ManageUser = () => {
 							<td>{user?.email}</td>
 							<td>{user?.role}</td>
 							<td className="flex gap-2">
-								<button className="btn btn-info">Make Instructor</button>
-								<button className="btn btn-info">Make Admin</button>
+								<button className="btn btn-info" onClick={() => handleMakeInstructor(user)} disabled={user.role == "instructor"}>
+									Make Instructor
+								</button>
+								<button className="btn btn-info" onClick={() => handleMakeAdmin(user)} disabled={user.role == "admin"}>
+									Make Admin
+								</button>
 							</td>
 						</tr>
 					))}
