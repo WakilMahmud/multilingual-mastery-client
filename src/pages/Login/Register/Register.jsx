@@ -9,7 +9,7 @@ import { getAuth, updateProfile } from "firebase/auth";
 const auth = getAuth();
 
 const Register = () => {
-	const { createUser, logOut, googleLogin } = useContext(AuthContext);
+	const { createUser, googleLogin } = useContext(AuthContext);
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -27,23 +27,35 @@ const Register = () => {
 
 		createUser(data.email, data.password)
 			.then((result) => {
-				const createdUser = result.user;
-				console.log(createdUser);
-				Swal.fire({
-					icon: "success",
-					title: "Successfully Registered!",
-					showConfirmButton: false,
-					timer: 1500,
-				});
-
-				logOut();
+				const loggedUser = result.user;
+				console.log(loggedUser);
 
 				updateProfile(auth.currentUser, {
 					displayName: data.name,
 					photoURL: data.photo,
 				})
 					.then(() => {
-						// console.log("Profile updated");
+						const saveUser = { name: data.name, email: data.email };
+						fetch("http://localhost:5000/users", {
+							method: "POST",
+							headers: {
+								"content-type": "application/json",
+							},
+							body: JSON.stringify(saveUser),
+						})
+							.then((res) => res.json())
+							.then((data) => {
+								if (data.insertedId) {
+									reset();
+									Swal.fire({
+										icon: "success",
+										title: "User created successfully.",
+										showConfirmButton: false,
+										timer: 1500,
+									});
+									navigate(from, { replace: true });
+								}
+							});
 					})
 					.catch((error) => {
 						Swal.fire({
@@ -52,16 +64,12 @@ const Register = () => {
 							text: error.message,
 						});
 					});
-
-				reset();
 			})
 			.catch((error) => {
-				console.log(error);
-
 				Swal.fire({
 					icon: "error",
 					title: "Oops...",
-					text: "Email is already in use!",
+					text: error.message,
 				});
 			});
 	};
@@ -71,8 +79,20 @@ const Register = () => {
 		googleLogin()
 			.then((result) => {
 				// The signed-in user info.
-				const user = result.user;
-				console.log(user);
+				const loggedInUser = result.user;
+				console.log(loggedInUser);
+				const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email };
+				fetch("http://localhost:5000/users", {
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+					},
+					body: JSON.stringify(saveUser),
+				})
+					.then((res) => res.json())
+					.then(() => {
+						navigate(from, { replace: true });
+					});
 				navigate(from, { replace: true });
 			})
 			.catch((error) => {

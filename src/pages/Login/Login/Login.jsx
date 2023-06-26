@@ -36,8 +36,8 @@ const Login = () => {
 		googleLogin()
 			.then((result) => {
 				// The signed-in user info.
-				const user = result.user;
-				console.log(user);
+				const loggedInUser = result.user;
+				console.log(loggedInUser);
 				navigate(from, { replace: true });
 			})
 			.catch((error) => {
