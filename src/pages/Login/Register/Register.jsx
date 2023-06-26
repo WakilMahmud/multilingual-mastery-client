@@ -4,12 +4,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Swal from "sweetalert2";
-import { getAuth, updateProfile } from "firebase/auth";
-
-const auth = getAuth();
 
 const Register = () => {
-	const { createUser, googleLogin } = useContext(AuthContext);
+	const { createUser, updateUserProfile, googleLogin } = useContext(AuthContext);
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -27,15 +24,12 @@ const Register = () => {
 
 		createUser(data.email, data.password)
 			.then((result) => {
-				const loggedUser = result.user;
-				console.log(loggedUser);
+				const createdUser = result.user;
+				console.log(createdUser);
 
-				updateProfile(auth.currentUser, {
-					displayName: data.name,
-					photoURL: data.photo,
-				})
+				updateUserProfile(data.name, data.photo)
 					.then(() => {
-						const saveUser = { name: data.name, email: data.email };
+						const saveUser = { name: data.name, email: data.email, role: "student" };
 						fetch("http://localhost:5000/users", {
 							method: "POST",
 							headers: {
@@ -81,7 +75,7 @@ const Register = () => {
 				// The signed-in user info.
 				const loggedInUser = result.user;
 				console.log(loggedInUser);
-				const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email };
+				const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email, role: "student" };
 				fetch("http://localhost:5000/users", {
 					method: "POST",
 					headers: {
