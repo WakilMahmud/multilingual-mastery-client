@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useRole = (user) => {
-	const [role, setRole] = useState(null);
+	const [role, setRole] = useState("student");
 	const [roleLoading, setRoleLoading] = useState(true);
 
 	useEffect(() => {
