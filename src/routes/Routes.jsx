@@ -13,6 +13,10 @@ import AddAClass from "../pages/Dashboard/AddAClass";
 import MyClasses from "../pages/Dashboard/MyClasses";
 import ManageClass from "../pages/Dashboard/ManageClass";
 import ManageUser from "../pages/Dashboard/ManageUser";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import InstructorRoute from "./InstructorRoute";
+import StudentRoute from "./StudentRoute";
 
 const router = createBrowserRouter([
 	{
@@ -48,36 +52,64 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/dashboard",
-		element: <Dashboard></Dashboard>,
+		element: (
+			<PrivateRoute>
+				<Dashboard></Dashboard>
+			</PrivateRoute>
+		),
 		errorElement: <ErrorPage></ErrorPage>,
 		children: [
 			{
 				path: "/dashboard",
-				element: <h1 className="font-bold text-7xl">DASHBOARD</h1>,
+				element: <h1 className="font-bold text-7xl text-center">DASHBOARD</h1>,
 			},
 			{
 				path: "/dashboard/selectedClasses",
-				element: <MySelectedClasses></MySelectedClasses>,
+				element: (
+					<StudentRoute>
+						<MySelectedClasses></MySelectedClasses>
+					</StudentRoute>
+				),
 			},
 			{
 				path: "/dashboard/bookedClasses",
-				element: <BookedClasses></BookedClasses>,
+				element: (
+					<StudentRoute>
+						<BookedClasses></BookedClasses>
+					</StudentRoute>
+				),
 			},
 			{
 				path: "/dashboard/addAClass",
-				element: <AddAClass></AddAClass>,
+				element: (
+					<InstructorRoute>
+						<AddAClass></AddAClass>
+					</InstructorRoute>
+				),
 			},
 			{
 				path: "/dashboard/myClasses",
-				element: <MyClasses></MyClasses>,
+				element: (
+					<InstructorRoute>
+						<MyClasses></MyClasses>
+					</InstructorRoute>
+				),
 			},
 			{
 				path: "/dashboard/manageClass",
-				element: <ManageClass></ManageClass>,
+				element: (
+					<AdminRoute>
+						<ManageClass></ManageClass>
+					</AdminRoute>
+				),
 			},
 			{
 				path: "/dashboard/manageUser",
-				element: <ManageUser></ManageUser>,
+				element: (
+					<AdminRoute>
+						<ManageUser></ManageUser>
+					</AdminRoute>
+				),
 			},
 		],
 	},
