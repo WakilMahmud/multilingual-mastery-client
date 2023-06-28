@@ -1,32 +1,33 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-const CheckoutForm = ({ price }) => {
-	// console.log(price);
+const CheckoutForm = ({ Class }) => {
+	// console.log(Class?.price);
 	const stripe = useStripe();
 	const elements = useElements();
 	const [cardError, setCardError] = useState("");
 	const [clientSecret, setClientSecret] = useState("");
 	const [processing, setProcessing] = useState(false);
-	const [transactionId, setTransactionId] = useState("");
 
 	const { user } = useContext(AuthContext);
 
 	useEffect(() => {
-		console.log(price);
+		// console.log(price);
 		// Create PaymentIntent as soon as the page loads
 		fetch("http://localhost:5000/create-payment-intent", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ price }),
+			body: JSON.stringify({ price: Class?.price }),
 		})
 			.then((res) => res.json())
 			.then((data) => {
 				console.log(data);
 				setClientSecret(data.clientSecret);
 			});
-	}, [price]);
+	}, [Class?.price]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -71,7 +72,39 @@ const CheckoutForm = ({ price }) => {
 		setProcessing(false);
 
 		if (paymentIntent.status === "succeeded") {
-			setTransactionId(paymentIntent.id);
+			// save payment information to the server
+			const payment = {
+				name: user?.displayName,
+				email: user?.email,
+				className: Class?.className,
+				transactionId: paymentIntent.id,
+				price: Class?.price,
+				date: new Date(),
+			};
+			axios.post("http://localhost:5000/payments", payment).then((res) => {
+				console.log(res.data);
+				if (res.data.insertedId) {
+					//update status booked to enrolled
+					fetch(`http://localhost:5000/payments?id=${Class?._id}`, {
+						method: "PATCH",
+					})
+						.then((res) => res.json())
+						.then((data) => {
+							// console.log(data);
+							if (data.modifiedCount) {
+								Swal.fire({
+									icon: "success",
+									title: "Successfully Enrolled",
+									showConfirmButton: false,
+									timer: 1500,
+								});
+							}
+						})
+						.catch((error) => {
+							console.log(error.message);
+						});
+				}
+			});
 		}
 	};
 

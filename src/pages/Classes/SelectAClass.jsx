@@ -11,6 +11,8 @@ const SelectAClass = ({ Class, role, user }) => {
 			return;
 		}
 		const saveClass = {
+			userName: user?.displayName,
+			userEmail: user?.email,
 			availableSeats: Class?.availableSeats,
 			classImage: Class?.classImage,
 			className: Class?.className,

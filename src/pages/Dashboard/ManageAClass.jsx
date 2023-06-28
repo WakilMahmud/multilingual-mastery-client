@@ -67,10 +67,10 @@ const ManageAClass = ({ Class, refetch }) => {
 					<p>Price: {Class?.price}$</p>
 					<p>Status: {Class?.status}</p>
 					<div className="card-actions">
-						<button className="btn btn-info" onClick={() => handleApprove(Class?._id)} disabled={isDisabled}>
+						<button className="btn btn-info" onClick={() => handleApprove(Class?._id)} disabled={isDisabled || Class?.status != "pending"}>
 							Approve
 						</button>
-						<button className="btn btn-info" onClick={() => handleDeny(Class?._id)} disabled={isDisabled}>
+						<button className="btn btn-info" onClick={() => handleDeny(Class?._id)} disabled={isDisabled || Class?.status != "pending"}>
 							Deny
 						</button>
 

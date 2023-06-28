@@ -7,11 +7,12 @@ const stripePromise = loadStripe(import.meta.env.VITE_publishableKey);
 
 const Payment = () => {
 	const { state } = useLocation();
+	// console.log(state?.Class);
 
 	return (
 		<div className="w-1/2">
 			<Elements stripe={stripePromise}>
-				<CheckoutForm price={state?.price} />
+				<CheckoutForm Class={state?.Class} />
 			</Elements>
 		</div>
 	);

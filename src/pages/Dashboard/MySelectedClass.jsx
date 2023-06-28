@@ -31,7 +31,7 @@ const MySelectedClass = ({ Class, refetch }) => {
 				<button className="btn btn-error" onClick={() => handleDelete(Class?._id)}>
 					Delete
 				</button>
-				<Link to="/dashboard/payment" state={{ price: Class?.price }}>
+				<Link to="/dashboard/payment" state={{ Class: Class }}>
 					<button className="btn btn-info w-full">Pay</button>
 				</Link>
 			</div>
