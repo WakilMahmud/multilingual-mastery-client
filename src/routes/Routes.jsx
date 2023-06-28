@@ -17,6 +17,7 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import InstructorRoute from "./InstructorRoute";
 import StudentRoute from "./StudentRoute";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 const router = createBrowserRouter([
 	{
@@ -76,6 +77,14 @@ const router = createBrowserRouter([
 				element: (
 					<StudentRoute>
 						<BookedClasses></BookedClasses>
+					</StudentRoute>
+				),
+			},
+			{
+				path: "/dashboard/payment",
+				element: (
+					<StudentRoute>
+						<Payment></Payment>
 					</StudentRoute>
 				),
 			},

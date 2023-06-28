@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MySelectedClass = ({ Class, refetch }) => {
@@ -30,7 +31,9 @@ const MySelectedClass = ({ Class, refetch }) => {
 				<button className="btn btn-error" onClick={() => handleDelete(Class?._id)}>
 					Delete
 				</button>
-				<button className="btn btn-info">Pay</button>
+				<Link to="/dashboard/payment" state={{ price: Class?.price }}>
+					<button className="btn btn-info w-full">Pay</button>
+				</Link>
 			</div>
 		</div>
 	);
