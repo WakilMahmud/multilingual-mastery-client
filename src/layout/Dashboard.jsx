@@ -31,7 +31,7 @@ const Dashboard = () => {
 									<NavLink to="/dashboard/selectedClasses">My Selected Classes</NavLink>
 								</li>
 								<li>
-									<NavLink to="/dashboard/bookedClasses">My Booked Classes</NavLink>
+									<NavLink to="/dashboard/bookedClasses">My Enrolled Classes</NavLink>
 								</li>
 							</>
 						) : role == "instructor" ? (

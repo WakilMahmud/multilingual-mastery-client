@@ -8,7 +8,7 @@ import Instructors from "../pages/Instructors/Instructors";
 import Classes from "../pages/Classes/Classes";
 import Dashboard from "../layout/Dashboard";
 import MySelectedClasses from "../pages/Dashboard/MySelectedClasses";
-import BookedClasses from "../pages/Dashboard/BookedClasses";
+
 import AddAClass from "../pages/Dashboard/AddAClass";
 import MyClasses from "../pages/Dashboard/MyClasses";
 import ManageClass from "../pages/Dashboard/ManageClass";
@@ -18,6 +18,7 @@ import AdminRoute from "./AdminRoute";
 import InstructorRoute from "./InstructorRoute";
 import StudentRoute from "./StudentRoute";
 import Payment from "../pages/Dashboard/Payment/Payment";
+import EnrolledClasses from "../pages/Dashboard/EnrolledClasses";
 
 const router = createBrowserRouter([
 	{
@@ -76,7 +77,7 @@ const router = createBrowserRouter([
 				path: "/dashboard/bookedClasses",
 				element: (
 					<StudentRoute>
-						<BookedClasses></BookedClasses>
+						<EnrolledClasses></EnrolledClasses>
 					</StudentRoute>
 				),
 			},
