@@ -10,7 +10,7 @@ const EnrolledClasses = () => {
 		fetch(`http://localhost:5000/enrolled-classes?email=${user?.email}`)
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
+				// console.log(data);
 				setEnrolledClasses(data);
 			});
 	}, [user?.email]);

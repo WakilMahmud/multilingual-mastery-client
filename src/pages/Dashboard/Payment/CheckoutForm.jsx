@@ -98,6 +98,24 @@ const CheckoutForm = ({ Class }) => {
 									showConfirmButton: false,
 									timer: 1500,
 								});
+
+								const popularClass = {
+									className: Class?.className,
+									classImage: Class?.classImage,
+									instructorName: Class?.instructorName,
+									instructorEmail: Class?.instructorEmail,
+								};
+								//save the class info into popular db
+								axios.post("http://localhost:5000/popular-classes", popularClass).then((res) => {
+									console.log(res.data);
+									fetch(`http://localhost:5000/popular-classes?className=${Class?.className}&instructorEmail=${Class?.instructorEmail}`, {
+										method: "PATCH",
+									})
+										.then((res) => res.json())
+										.then((data) => {
+											console.log(data);
+										});
+								});
 							}
 						})
 						.catch((error) => {
