@@ -53,7 +53,7 @@ const Navbar = () => {
 	);
 
 	return (
-		<div className="navbar sticky top-0 z-10  font-bold">
+		<div className="navbar sticky top-0 z-10  font-bold bg-white">
 			<div className="flex-1 md:hidden">
 				<div className="dropdown">
 					<label tabIndex={0} className="btn btn-ghost btn-circle" onClick={() => setClick(!click)}>

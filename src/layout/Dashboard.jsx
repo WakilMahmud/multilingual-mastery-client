@@ -3,6 +3,9 @@ import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import Navbar from "../pages/Shared/Navbar/Navbar";
 import useRole from "../hooks/useRole";
+import { HiOutlineCursorClick } from "react-icons/hi";
+import { MdPlaylistAddCheck } from "react-icons/md";
+import { AiOutlineUser, AiOutlineRead, AiOutlineFileAdd, AiOutlineFileText } from "react-icons/ai";
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
@@ -28,28 +31,40 @@ const Dashboard = () => {
 						{role == "student" ? (
 							<>
 								<li>
-									<NavLink to="/dashboard/selectedClasses">My Selected Classes</NavLink>
+									<NavLink to="/dashboard/selectedClasses">
+										<HiOutlineCursorClick></HiOutlineCursorClick>My Selected Classes
+									</NavLink>
 								</li>
 								<li>
-									<NavLink to="/dashboard/bookedClasses">My Enrolled Classes</NavLink>
+									<NavLink to="/dashboard/bookedClasses">
+										<MdPlaylistAddCheck></MdPlaylistAddCheck>My Enrolled Classes
+									</NavLink>
 								</li>
 							</>
 						) : role == "instructor" ? (
 							<>
 								<li>
-									<NavLink to="/dashboard/addAClass">Add a class</NavLink>
+									<NavLink to="/dashboard/addAClass">
+										<AiOutlineFileAdd></AiOutlineFileAdd>Add a class
+									</NavLink>
 								</li>
 								<li>
-									<NavLink to="/dashboard/myClasses">My Classes</NavLink>
+									<NavLink to="/dashboard/myClasses">
+										<AiOutlineFileText></AiOutlineFileText>My Classes
+									</NavLink>
 								</li>
 							</>
 						) : (
 							<>
 								<li>
-									<NavLink to="/dashboard/manageClass">Manage Class</NavLink>
+									<NavLink to="/dashboard/manageClass">
+										<AiOutlineRead></AiOutlineRead>Manage Class
+									</NavLink>
 								</li>
 								<li>
-									<NavLink to="/dashboard/manageUser">Manage User</NavLink>
+									<NavLink to="/dashboard/manageUser">
+										<AiOutlineUser></AiOutlineUser>Manage User
+									</NavLink>
 								</li>
 							</>
 						)}
