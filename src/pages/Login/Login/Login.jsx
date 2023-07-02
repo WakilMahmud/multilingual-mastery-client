@@ -1,17 +1,20 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 import Swal from "sweetalert2";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 
 const Login = () => {
+	const [hide, setHide] = useState(true);
 	const { signIn, googleLogin } = useContext(AuthContext);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const from = location.state?.from?.pathname || "/";
 
 	const { register, handleSubmit } = useForm();
+
 	const onSubmit = (data) => {
 		// console.log(data);
 
@@ -65,9 +68,28 @@ const Login = () => {
 		<div className="flex justify-center">
 			<div className="flex flex-col justify-center items-center my-32 w-full lg:w-2/5 border py-10 rounded">
 				<h1 className="text-3xl font-extrabold mb-8">Login</h1>
+
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-3/4 mx-auto  space-y-4">
 					<input type="email" placeholder="Enter your email" className="border rounded p-2" {...register("email")} required />
-					<input type="password" placeholder="Enter your password" className="border rounded p-2" {...register("password")} required />
+
+					<div className="w-full relative">
+						<input
+							type={hide ? "password" : "text"}
+							placeholder="Enter your password"
+							className="border rounded p-2  w-full"
+							{...register("password")}
+							required
+						/>
+						{hide ? (
+							<button type="button" className="w-fit absolute right-2 top-3" onClick={() => setHide(false)}>
+								<HiOutlineEye></HiOutlineEye>
+							</button>
+						) : (
+							<button type="button" className="w-fit absolute right-2 top-3" onClick={() => setHide(true)}>
+								<HiOutlineEyeOff></HiOutlineEyeOff>
+							</button>
+						)}
+					</div>
 
 					<input className="btn btn-info rounded-full" type="submit" value="Login" />
 
@@ -78,6 +100,7 @@ const Login = () => {
 						</Link>
 					</p>
 				</form>
+
 				<div className="divider w-full ">OR</div>
 				<button className="btn btn-warning w-3/4 rounded-full" onClick={handleGoogleLogin}>
 					Sign in with Google
