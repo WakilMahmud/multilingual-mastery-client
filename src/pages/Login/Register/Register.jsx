@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Swal from "sweetalert2";
 
 const Register = () => {
 	const { createUser, updateUserProfile, googleLogin } = useContext(AuthContext);
+	const [passwordError, setPasswordError] = useState("");
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -21,6 +22,13 @@ const Register = () => {
 
 	const onSubmit = (data) => {
 		// console.log(data);
+
+		if (data.password !== data.confirm_password) {
+			setPasswordError("Rewrite Same Password");
+			return;
+		} else {
+			setPasswordError("");
+		}
 
 		createUser(data.email, data.password)
 			.then((result) => {
@@ -112,8 +120,8 @@ const Register = () => {
 							minLength: 6,
 							pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{6,}$/,
 						})}
-						placeholder="password"
-						className="input input-bordered"
+						placeholder="Password"
+						className="border rounded p-2"
 						required
 					/>
 
@@ -121,7 +129,22 @@ const Register = () => {
 					{errors.password?.type === "pattern" && (
 						<p className="text-red-600">Password must have one Uppercase, one lower case, one number and one special character.</p>
 					)}
-					<input type="password" placeholder="Confirm password" className="border rounded p-2" {...register("confirm_password")} required />
+					<input
+						type="password"
+						{...register("confirm_password", {
+							required: true,
+							minLength: 6,
+							pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{6,}$/,
+						})}
+						placeholder="Confirm Password"
+						className="border rounded p-2"
+						required
+					/>
+					{errors.confirm_password?.type === "minLength" && <p className="text-red-600">Password must be 6 characters</p>}
+					{errors.confirm_password?.type === "pattern" && (
+						<p className="text-red-600">Password must have one Uppercase, one lower case, one number and one special character.</p>
+					)}
+					{<p className="text-red-600">{passwordError}</p>}
 					<input placeholder="Photo URL" className="border rounded p-2" {...register("photo")} />
 
 					<input className="btn btn-info rounded-full" type="submit" value="Register" />
