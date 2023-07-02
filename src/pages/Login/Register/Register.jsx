@@ -145,7 +145,7 @@ const Register = () => {
 						<p className="text-red-600">Password must have one Uppercase, one lower case, one number and one special character.</p>
 					)}
 					{<p className="text-red-600">{passwordError}</p>}
-					<input placeholder="Photo URL" className="border rounded p-2" {...register("photo")} />
+					<input type="text" placeholder="Photo URL" className="border rounded p-2" {...register("photo")} />
 
 					<input className="btn btn-info rounded-full" type="submit" value="Register" />
 

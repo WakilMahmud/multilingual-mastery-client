@@ -7,43 +7,57 @@ const AddAClass = () => {
 	const { user } = useContext(AuthContext);
 
 	const { register, handleSubmit, reset } = useForm();
-	const onSubmit = (data) => {
-		console.log(data);
-		const classInfo = {
-			className: data.className,
-			classImage: data.classImage,
-			instructorName: data.instructorName,
-			instructorEmail: data.instructorEmail,
-			availableSeats: parseInt(data.availableSeats),
-			price: parseFloat(data.price),
-			status: "pending",
-		};
+	const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 
-		fetch("http://localhost:5000/classes", {
-			method: "POST",
-			headers: {
-				"content-type": "application/json",
-			},
-			body: JSON.stringify(classInfo),
-		})
+	const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
+
+	const onSubmit = (data) => {
+		const formData = new FormData();
+		formData.append("image", data.classImage[0]);
+
+		fetch(img_hosting_url, { method: "POST", body: formData })
 			.then((res) => res.json())
-			.then((data) => {
-				if (data.insertedId) {
-					reset();
-					Swal.fire({
-						icon: "success",
-						title: "Class is added.",
-						showConfirmButton: false,
-						timer: 1500,
-					});
+			.then((imgResponse) => {
+				if (imgResponse.success) {
+					const classInfo = {
+						className: data.className,
+						classImage: imgResponse.data.display_url,
+						instructorName: data.instructorName,
+						instructorEmail: data.instructorEmail,
+						availableSeats: parseInt(data.availableSeats),
+						price: parseFloat(data.price),
+						status: "pending",
+					};
+
+					// console.log(classInfo);
+
+					fetch("http://localhost:5000/classes", {
+						method: "POST",
+						headers: {
+							"content-type": "application/json",
+						},
+						body: JSON.stringify(classInfo),
+					})
+						.then((res) => res.json())
+						.then((data) => {
+							if (data.insertedId) {
+								reset();
+								Swal.fire({
+									icon: "success",
+									title: "Class is added.",
+									showConfirmButton: false,
+									timer: 1500,
+								});
+							}
+						})
+						.catch((error) => {
+							Swal.fire({
+								icon: "error",
+								title: "Oops...",
+								text: error.message,
+							});
+						});
 				}
-			})
-			.catch((error) => {
-				Swal.fire({
-					icon: "error",
-					title: "Oops...",
-					text: error.message,
-				});
 			});
 	};
 
@@ -53,8 +67,12 @@ const AddAClass = () => {
 			<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-3/5 mx-auto  space-y-4">
 				<input type="text" className="border rounded p-2" placeholder="Class Name" {...register("className")} />
 
-				{/* <input type="file" className="border rounded p-2" placeholder="Class Image" {...register("classImage")} /> */}
-				<input type="text" className="border rounded p-2" placeholder="Class Image" {...register("classImage")} />
+				<div className="border rounded p-2">
+					<label htmlFor="ClassImage" className="text-gray-400">
+						Class Image{" "}
+					</label>
+					<input type="file" placeholder="Class Image" id="ClassImage" {...register("classImage")} />
+				</div>
 
 				<input type="text" className="border rounded p-2" defaultValue={user?.displayName} {...register("instructorName")} />
 
