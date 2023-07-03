@@ -13,7 +13,7 @@ const ManageClass = () => {
 
 	return (
 		<div className="grid grid-cols-2 gap-2">
-			{classes.map((Class) => (
+			{classes?.map((Class) => (
 				<ManageAClass key={Class?._id} Class={Class} refetch={refetch}></ManageAClass>
 			))}
 		</div>

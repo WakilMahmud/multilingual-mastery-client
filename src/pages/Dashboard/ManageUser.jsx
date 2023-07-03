@@ -1,30 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
-
+import { useContext } from "react";
 import Swal from "sweetalert2";
-// import { useEffect, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const ManageUser = () => {
-	// const [users, setUsers] = useState([]);
-
-	// useEffect(() => {
-	// 	fetch("http://localhost:5000/users")
-	// 		.then((res) => res.json())
-	// 		.then((data) => {
-	// 			setUsers(data);
-	// 		});
-	// }, []);
+	const token = localStorage.getItem("access-token");
+	const { user } = useContext(AuthContext);
 
 	const { data: users = [], refetch } = useQuery({
 		queryKey: ["users"],
 		queryFn: async () => {
-			const res = await fetch("http://localhost:5000/users");
+			const res = await fetch(`http://localhost:5000/users?email=${user?.email}`, { headers: { authorization: `bearer ${token}` } });
 			return res.json();
 		},
 	});
 
+	console.log(users);
+
 	const handleMakeAdmin = (user) => {
 		console.log(user);
-		fetch(`http://localhost:5000/users/admin/${user._id}`, {
+		fetch(`http://localhost:5000/users/admin/${user?._id}`, {
 			method: "PATCH",
 		})
 			.then((res) => res.json())
@@ -44,7 +39,7 @@ const ManageUser = () => {
 
 	const handleMakeInstructor = (user) => {
 		console.log(user);
-		fetch(`http://localhost:5000/users/instructor/${user._id}`, {
+		fetch(`http://localhost:5000/users/instructor/${user?._id}`, {
 			method: "PATCH",
 		})
 			.then((res) => res.json())
@@ -54,7 +49,7 @@ const ManageUser = () => {
 					refetch();
 					Swal.fire({
 						icon: "success",
-						title: `${user.name} is an Instructor Now!`,
+						title: `${user?.name} is an Instructor Now!`,
 						showConfirmButton: false,
 						timer: 1500,
 					});
@@ -76,7 +71,7 @@ const ManageUser = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{users.map((user, index) => (
+					{users?.map((user, index) => (
 						<tr key={user?._id}>
 							<td>{index + 1}</td>
 							<td>
@@ -94,10 +89,10 @@ const ManageUser = () => {
 							<td>{user?.email}</td>
 							<td>{user?.role}</td>
 							<td className="flex gap-2">
-								<button className="btn btn-info" onClick={() => handleMakeInstructor(user)} disabled={user.role == "instructor"}>
+								<button className="btn btn-info" onClick={() => handleMakeInstructor(user)} disabled={user?.role == "instructor"}>
 									Make Instructor
 								</button>
-								<button className="btn btn-info" onClick={() => handleMakeAdmin(user)} disabled={user.role == "admin"}>
+								<button className="btn btn-info" onClick={() => handleMakeAdmin(user)} disabled={user?.role == "admin"}>
 									Make Admin
 								</button>
 							</td>
