@@ -13,6 +13,8 @@ const Login = () => {
 	const location = useLocation();
 	const from = location.state?.from?.pathname || "/";
 
+	console.log(from);
+
 	const { register, handleSubmit } = useForm();
 
 	const onSubmit = (data) => {
@@ -42,7 +44,7 @@ const Login = () => {
 				const loggedInUser = result.user;
 				// console.log(loggedInUser);
 				const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email, role: "student", photoURL: loggedInUser.photoURL };
-				fetch("http://localhost:5000/users", {
+				fetch("https://multilingual-mastery-server.vercel.app/users", {
 					method: "POST",
 					headers: {
 						"content-type": "application/json",

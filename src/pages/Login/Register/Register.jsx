@@ -38,7 +38,7 @@ const Register = () => {
 				updateUserProfile(data.name, data.photo)
 					.then(() => {
 						const saveUser = { name: data.name, email: data.email, role: "student", photoURL: data.photo };
-						fetch("http://localhost:5000/users", {
+						fetch("https://multilingual-mastery-server.vercel.app/users", {
 							method: "POST",
 							headers: {
 								"content-type": "application/json",
@@ -84,7 +84,7 @@ const Register = () => {
 				const loggedInUser = result.user;
 				console.log(loggedInUser);
 				const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email, role: "student", photoURL: loggedInUser.photoURL };
-				fetch("http://localhost:5000/users", {
+				fetch("https://multilingual-mastery-server.vercel.app/users", {
 					method: "POST",
 					headers: {
 						"content-type": "application/json",

@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 
 const SelectAClass = ({ Class, role, user }) => {
 	const [isDisabled, setIsDisabled] = useState(false);
+
 	const handleSelect = (Class) => {
 		if (!user) {
 			Swal.fire({
@@ -22,7 +23,7 @@ const SelectAClass = ({ Class, role, user }) => {
 			status: "booked",
 		};
 
-		fetch("http://localhost:5000/register-classes", {
+		fetch("https://multilingual-mastery-server.vercel.app/register-classes", {
 			method: "POST",
 			headers: {
 				"content-type": "application/json",

@@ -17,7 +17,7 @@ const CheckoutForm = ({ Class }) => {
 	useEffect(() => {
 		// console.log(price);
 		// Create PaymentIntent as soon as the page loads
-		fetch("http://localhost:5000/create-payment-intent", {
+		fetch("https://multilingual-mastery-server.vercel.app/create-payment-intent", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ price: Class?.price }),
@@ -81,11 +81,11 @@ const CheckoutForm = ({ Class }) => {
 				price: Class?.price,
 				date: new Date(),
 			};
-			axios.post("http://localhost:5000/payments", payment).then((res) => {
+			axios.post("https://multilingual-mastery-server.vercel.app/payments", payment).then((res) => {
 				console.log(res.data);
 				if (res.data.insertedId) {
 					//update status booked to enrolled
-					fetch(`http://localhost:5000/payments?id=${Class?._id}`, {
+					fetch(`https://multilingual-mastery-server.vercel.app/payments?id=${Class?._id}`, {
 						method: "PATCH",
 					})
 						.then((res) => res.json())
@@ -106,11 +106,25 @@ const CheckoutForm = ({ Class }) => {
 									instructorEmail: Class?.instructorEmail,
 								};
 								//save the class info into popular db
-								axios.post("http://localhost:5000/popular-classes", popularClass).then((res) => {
+								axios.post("https://multilingual-mastery-server.vercel.app/popular-classes", popularClass).then((res) => {
 									console.log(res.data);
-									fetch(`http://localhost:5000/popular-classes?className=${Class?.className}&instructorEmail=${Class?.instructorEmail}`, {
-										method: "PATCH",
-									})
+									fetch(
+										`https://multilingual-mastery-server.vercel.app/popular-classes?className=${Class?.className}&instructorEmail=${Class?.instructorEmail}`,
+										{
+											method: "PATCH",
+										}
+									)
+										.then((res) => res.json())
+										.then((data) => {
+											console.log(data);
+										});
+
+									fetch(
+										`https://multilingual-mastery-server.vercel.app/classes?className=${Class?.className}&instructorEmail=${Class?.instructorEmail}`,
+										{
+											method: "PATCH",
+										}
+									)
 										.then((res) => res.json())
 										.then((data) => {
 											console.log(data);

@@ -15,7 +15,7 @@ const ManageAClass = ({ Class, refetch }) => {
 	}
 
 	const handleApprove = (id) => {
-		fetch(`http://localhost:5000/classes/admin/${id}?status=approved`, {
+		fetch(`https://multilingual-mastery-server.vercel.app/classes/admin/${id}?status=approved`, {
 			method: "PATCH",
 		})
 			.then((res) => res.json())
@@ -35,7 +35,7 @@ const ManageAClass = ({ Class, refetch }) => {
 	};
 
 	const handleDeny = (id) => {
-		fetch(`http://localhost:5000/classes/admin/${id}?status=denied`, {
+		fetch(`https://multilingual-mastery-server.vercel.app/classes/admin/${id}?status=denied`, {
 			method: "PATCH",
 		})
 			.then((res) => res.json())
@@ -53,11 +53,41 @@ const ManageAClass = ({ Class, refetch }) => {
 				}
 			});
 	};
+
+	const [feedback, setFeedback] = useState("");
+
+	const handleChange = (event) => {
+		setFeedback(event.target.value);
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		console.log(feedback);
+
+		fetch(`https://multilingual-mastery-server.vercel.app/classes/${Class?._id}?feedback=${feedback}`, {
+			method: "PATCH",
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				if (data.modifiedCount) {
+					Swal.fire({
+						icon: "success",
+						title: `Feedback is sent`,
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			});
+
+		closeModal();
+	};
+
 	return (
 		<>
 			<div key={Class?._id} className="card bg-base-100 shadow-xl">
 				<figure>
-					<img src={Class?.classImage} alt="Shoes" className="h-full w-full " />
+					<img src={Class?.classImage} alt="Shoes" className="h-80 w-full " />
 				</figure>
 				<div className="card-body">
 					<h2 className="card-title">{Class?.className}</h2>
@@ -110,16 +140,14 @@ const ManageAClass = ({ Class, refetch }) => {
 										Feedback Form
 									</Dialog.Title>
 									<div className="mt-2">
-										<p className="text-sm text-gray-500">
-											Your payment has been successfully submitted. We’ve sent you an email with all of the details of your order.
-										</p>
+										<textarea className="p-4" onChange={handleChange} placeholder="Enter the reason" rows={5} cols={48} />
 									</div>
 
 									<div className="mt-4">
 										<button
-											type="button"
+											type="submit"
 											className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-											onClick={closeModal}
+											onClick={handleSubmit}
 										>
 											Send Feedback
 										</button>

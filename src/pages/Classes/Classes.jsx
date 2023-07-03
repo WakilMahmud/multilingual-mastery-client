@@ -10,7 +10,7 @@ const Classes = () => {
 	const [role] = useRole(user);
 
 	axios
-		.get("http://localhost:5000/approved-classes")
+		.get("https://multilingual-mastery-server.vercel.app/approved-classes")
 		.then((res) => {
 			// Handle the response data
 			setApprovedClasses(res.data);
@@ -20,7 +20,7 @@ const Classes = () => {
 		});
 
 	return (
-		<div className="grid grid-cols-3 gap-2">
+		<div className="grid grid-col-1 lg:grid-cols-3 gap-4 my-32">
 			{approvedClasses.map((Class) => (
 				<SelectAClass key={Class?._id} Class={Class} role={role} user={user}></SelectAClass>
 			))}

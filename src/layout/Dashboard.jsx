@@ -4,6 +4,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import Navbar from "../pages/Shared/Navbar/Navbar";
 import useRole from "../hooks/useRole";
 import { HiOutlineCursorClick } from "react-icons/hi";
+import { HiOutlineCreditCard } from "react-icons/hi2";
 import { MdPlaylistAddCheck } from "react-icons/md";
 import { AiOutlineUser, AiOutlineRead, AiOutlineFileAdd, AiOutlineFileText } from "react-icons/ai";
 
@@ -38,6 +39,11 @@ const Dashboard = () => {
 								<li>
 									<NavLink to="/dashboard/bookedClasses">
 										<MdPlaylistAddCheck></MdPlaylistAddCheck>My Enrolled Classes
+									</NavLink>
+								</li>
+								<li>
+									<NavLink to="/dashboard/payment-history">
+										<HiOutlineCreditCard></HiOutlineCreditCard>Payment History
 									</NavLink>
 								</li>
 							</>

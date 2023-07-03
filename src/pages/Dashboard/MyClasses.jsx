@@ -8,7 +8,7 @@ const MyClasses = () => {
 	const { data: myClasses = [] } = useQuery({
 		queryKey: ["myClasses", user?.email],
 		queryFn: async () => {
-			const res = await fetch(`http://localhost:5000/classes?email=${user?.email}`);
+			const res = await fetch(`https://multilingual-mastery-server.vercel.app/classes?email=${user?.email}`);
 			return res.json();
 		},
 	});
@@ -33,7 +33,7 @@ const MyClasses = () => {
 					</tr>
 				</thead>
 				<tbody className="text-center">
-					{myClasses.map((Class, index) => (
+					{myClasses?.map((Class, index) => (
 						<tr key={Class?._id}>
 							<td>{index + 1}</td>
 							<td>
@@ -53,8 +53,8 @@ const MyClasses = () => {
 							<td>{Class?.availableSeats}</td>
 							<td>{Class?.price}</td>
 							<td>{Class?.status}</td>
-							<td>{0}</td>
-							<td>{null}</td>
+							<td>{Class?.enrolledStudents || 0}</td>
+							<td>{Class?.feedback}</td>
 							<td className="flex gap-2">
 								<button className="btn btn-info">Update</button>
 							</td>

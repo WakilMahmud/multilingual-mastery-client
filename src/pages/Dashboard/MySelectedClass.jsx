@@ -4,7 +4,10 @@ import Swal from "sweetalert2";
 const MySelectedClass = ({ Class, refetch }) => {
 	const handleDelete = (id) => {
 		// console.log(id);
-		fetch(`http://localhost:5000/register-classes/${id}`, { method: "DELETE", headers: { "Content-Type": "application/json" } })
+		fetch(`https://multilingual-mastery-server.vercel.app/register-classes/${id}`, {
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" },
+		})
 			.then((res) => res.json())
 			.then((data) => {
 				if (data.deletedCount > 0) {

@@ -6,7 +6,9 @@ const useRole = (user) => {
 	const token = localStorage.getItem("access-token");
 
 	useEffect(() => {
-		fetch(`http://localhost:5000/users?email=${user?.email}&role=wantToKnow`, { headers: { authorization: `bearer ${token}` } })
+		fetch(`https://multilingual-mastery-server.vercel.app/users?email=${user?.email}&role=wantToKnow`, {
+			headers: { authorization: `bearer ${token}` },
+		})
 			.then((res) => res.json())
 			.then((data) => {
 				// console.log(data);

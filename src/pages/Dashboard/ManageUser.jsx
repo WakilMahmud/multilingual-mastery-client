@@ -10,16 +10,18 @@ const ManageUser = () => {
 	const { data: users = [], refetch } = useQuery({
 		queryKey: ["users"],
 		queryFn: async () => {
-			const res = await fetch(`http://localhost:5000/users?email=${user?.email}`, { headers: { authorization: `bearer ${token}` } });
+			const res = await fetch(`https://multilingual-mastery-server.vercel.app/users?email=${user?.email}`, {
+				headers: { authorization: `bearer ${token}` },
+			});
 			return res.json();
 		},
 	});
 
-	console.log(users);
+	// console.log(users);
 
 	const handleMakeAdmin = (user) => {
 		console.log(user);
-		fetch(`http://localhost:5000/users/admin/${user?._id}`, {
+		fetch(`https://multilingual-mastery-server.vercel.app/users/admin/${user?._id}`, {
 			method: "PATCH",
 		})
 			.then((res) => res.json())
@@ -39,7 +41,7 @@ const ManageUser = () => {
 
 	const handleMakeInstructor = (user) => {
 		console.log(user);
-		fetch(`http://localhost:5000/users/instructor/${user?._id}`, {
+		fetch(`https://multilingual-mastery-server.vercel.app/users/instructor/${user?._id}`, {
 			method: "PATCH",
 		})
 			.then((res) => res.json())

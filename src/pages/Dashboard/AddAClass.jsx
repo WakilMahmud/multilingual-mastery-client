@@ -27,11 +27,13 @@ const AddAClass = () => {
 						availableSeats: parseInt(data.availableSeats),
 						price: parseFloat(data.price),
 						status: "pending",
+						feedback: "",
+						enrolledStudents: 0,
 					};
 
 					// console.log(classInfo);
 
-					fetch("http://localhost:5000/classes", {
+					fetch("https://multilingual-mastery-server.vercel.app/classes", {
 						method: "POST",
 						headers: {
 							"content-type": "application/json",

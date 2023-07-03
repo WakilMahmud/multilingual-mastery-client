@@ -8,13 +8,13 @@ const MySelectedClasses = () => {
 	const { data: selectedClasses = [], refetch } = useQuery({
 		queryKey: ["selectedClasses"],
 		queryFn: async () => {
-			const res = await fetch(`http://localhost:5000/register-classes?email=${user?.email}`);
+			const res = await fetch(`https://multilingual-mastery-server.vercel.app/register-classes?email=${user?.email}`);
 			return res.json();
 		},
 	});
 
 	return (
-		<div className="grid grid-cols-2 gap-2">
+		<div className="grid grid-col-1 lg:grid-cols-2 gap-2">
 			{selectedClasses.map((Class) => (
 				<MySelectedClass key={Class?._id} Class={Class} refetch={refetch}></MySelectedClass>
 			))}

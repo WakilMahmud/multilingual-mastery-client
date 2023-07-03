@@ -8,7 +8,7 @@ const Theme = () => {
 	}, []);
 
 	return (
-		<li className="flex items-center">
+		<li className="flex lg:items-center font-semibold text-lg">
 			<select data-choose-theme>
 				<option value="dark">Dark</option>
 				<option value="light">Light</option>

@@ -7,7 +7,7 @@ const EnrolledClasses = () => {
 	const [enrolledClasses, setEnrolledClasses] = useState([]);
 
 	useEffect(() => {
-		fetch(`http://localhost:5000/enrolled-classes?email=${user?.email}`)
+		fetch(`https://multilingual-mastery-server.vercel.app/enrolled-classes?email=${user?.email}`)
 			.then((res) => res.json())
 			.then((data) => {
 				// console.log(data);
@@ -16,7 +16,7 @@ const EnrolledClasses = () => {
 	}, [user?.email]);
 
 	return (
-		<div className="grid grid-cols-2 gap-2">
+		<div className="grid grid-col-1 lg:grid-cols-2 gap-2">
 			{enrolledClasses.map((Class) => (
 				<EnrolledClass key={Class?._id} Class={Class}></EnrolledClass>
 			))}
