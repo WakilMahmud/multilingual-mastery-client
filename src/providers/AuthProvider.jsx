@@ -51,21 +51,20 @@ const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
-			// console.log(loggedUser);
+			console.log(loggedUser);
 			setUser(loggedUser);
 
 			// get and set token
 			if (loggedUser) {
 				axios.post("https://multilingual-mastery-server.vercel.app/jwt", { email: loggedUser.email }).then((data) => {
-					// console.log(data);
+					console.log(data);
 					localStorage.setItem("access-token", data.data.token);
 					setLoading(false);
 				});
 			} else {
 				localStorage.removeItem("access-token");
+				setLoading(false);
 			}
-
-			setLoading(false);
 		});
 
 		return () => {

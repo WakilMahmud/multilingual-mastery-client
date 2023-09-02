@@ -140,7 +140,7 @@ const ManageAClass = ({ Class, refetch }) => {
 										Feedback Form
 									</Dialog.Title>
 									<div className="mt-2">
-										<textarea className="p-4" onChange={handleChange} placeholder="Enter the reason" rows={5} cols={48} />
+										<textarea className="p-4" onChange={handleChange} placeholder="Enter the reason" rows={5} cols={30} />
 									</div>
 
 									<div className="mt-4">

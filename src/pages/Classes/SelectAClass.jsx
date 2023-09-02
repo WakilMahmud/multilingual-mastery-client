@@ -44,7 +44,7 @@ const SelectAClass = ({ Class, role, user }) => {
 			});
 	};
 	return (
-		<div key={Class?._id} className={`card card-compact w-96  shadow-xl ${Class?.availableSeats == 0 ? "bg-red-500" : "bg-base-100"}`}>
+		<div key={Class?._id} className={`card card-compact w-full lg:w-96  shadow-xl ${Class?.availableSeats == 0 ? "bg-red-500" : "bg-base-100"}`}>
 			<figure>
 				<img className="h-64 w-full" src={Class?.classImage} alt="Class" />
 			</figure>

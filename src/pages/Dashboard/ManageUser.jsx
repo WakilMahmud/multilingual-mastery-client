@@ -4,11 +4,12 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const ManageUser = () => {
+	const { user, loading } = useContext(AuthContext);
 	const token = localStorage.getItem("access-token");
-	const { user } = useContext(AuthContext);
 
 	const { data: users = [], refetch } = useQuery({
 		queryKey: ["users"],
+		enabled: !loading,
 		queryFn: async () => {
 			const res = await fetch(`https://multilingual-mastery-server.vercel.app/users?email=${user?.email}`, {
 				headers: { authorization: `bearer ${token}` },
@@ -20,7 +21,7 @@ const ManageUser = () => {
 	// console.log(users);
 
 	const handleMakeAdmin = (user) => {
-		console.log(user);
+		// console.log(user);
 		fetch(`https://multilingual-mastery-server.vercel.app/users/admin/${user?._id}`, {
 			method: "PATCH",
 		})

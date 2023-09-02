@@ -11,7 +11,7 @@ const Login = () => {
 	const { signIn, googleLogin } = useContext(AuthContext);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const from = location.state?.from?.pathname || "/";
+	const from = location.state?.from?.pathname || "/dashboard" || "/";
 
 	console.log(from);
 

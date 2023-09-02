@@ -4,11 +4,14 @@ import { AuthContext } from "../../../providers/AuthProvider";
 
 const PaymentHistory = () => {
 	const { user } = useContext(AuthContext);
+	const token = localStorage.getItem("access-token");
 	// console.log(user?.email);
 	const { data: payments = [] } = useQuery({
 		queryKey: ["payments"],
 		queryFn: async () => {
-			const res = await fetch(`https://multilingual-mastery-server.vercel.app/payment-history?email=${user?.email}`);
+			const res = await fetch(`https://multilingual-mastery-server.vercel.app/payment-history?email=${user?.email}`, {
+				headers: { authorization: `bearer ${token}` },
+			});
 			return res.json();
 		},
 	});

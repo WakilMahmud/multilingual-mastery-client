@@ -95,7 +95,7 @@ const Register = () => {
 					.then(() => {
 						navigate(from, { replace: true });
 					});
-				navigate(from, { replace: true });
+				navigate("/");
 			})
 			.catch((error) => {
 				Swal.fire({

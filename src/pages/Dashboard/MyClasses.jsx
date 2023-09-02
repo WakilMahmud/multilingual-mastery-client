@@ -4,11 +4,14 @@ import { AuthContext } from "../../providers/AuthProvider";
 
 const MyClasses = () => {
 	const { user } = useContext(AuthContext);
+	const token = localStorage.getItem("access-token");
 
 	const { data: myClasses = [] } = useQuery({
 		queryKey: ["myClasses", user?.email],
 		queryFn: async () => {
-			const res = await fetch(`https://multilingual-mastery-server.vercel.app/classes?email=${user?.email}`);
+			const res = await fetch(`https://multilingual-mastery-server.vercel.app/classes?email=${user?.email}`, {
+				headers: { authorization: `bearer ${token}` },
+			});
 			return res.json();
 		},
 	});
