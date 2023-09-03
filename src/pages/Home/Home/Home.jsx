@@ -1,3 +1,5 @@
+import ClassReviewsSection from "../ClassReviewsSection/ClassReviewsSection";
+import Contact from "../Contact/Contact";
 import FAQ from "../FAQ/FAQ";
 import Partners from "../Partners/Partners";
 import PopularClasses from "../PopularClasses/PopularClasses";
@@ -13,8 +15,10 @@ const Home = () => {
 			<PopularClasses></PopularClasses>
 			<PopularInstructors></PopularInstructors>
 			<Trust></Trust>
+			<ClassReviewsSection></ClassReviewsSection>
 			<Services></Services>
 			<Partners></Partners>
+			<Contact></Contact>
 			<FAQ></FAQ>
 		</>
 	);
