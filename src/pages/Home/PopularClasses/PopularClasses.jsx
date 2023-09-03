@@ -12,7 +12,7 @@ const PopularClasses = () => {
 	}, []);
 
 	return (
-		<section className="my-32">
+		<section className="my-32 max-w-screen-xl mx-auto">
 			<h2 className="font-bold text-3xl text-center my-10">Popular Classes</h2>
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				{popularClasses.map((classItem) => (

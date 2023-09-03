@@ -6,7 +6,7 @@ import { HiChevronUp } from "react-icons/hi";
 const FAQ = () => {
 	return (
 		<Fade>
-			<h2 className="font-bold text-3xl text-center">Frequently Asked Questions</h2>
+			<h2 className="font-bold text-2xl lg:text-3xl text-center max-w-screen-xl mx-auto">Frequently Asked Questions</h2>
 			<div className="w-full px-4 mt-10 mb-32">
 				<div className="mx-auto w-full max-w-md rounded-2xl bg-white p-2">
 					<Disclosure>

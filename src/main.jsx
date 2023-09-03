@@ -11,9 +11,7 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<QueryClientProvider client={queryClient}>
 		<AuthProvider>
-			<div className="max-w-screen-xl mx-auto">
-				<RouterProvider router={router}></RouterProvider>
-			</div>
+			<RouterProvider router={router}></RouterProvider>
 		</AuthProvider>
 	</QueryClientProvider>
 );

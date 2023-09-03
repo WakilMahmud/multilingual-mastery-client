@@ -56,7 +56,7 @@ const Navbar = () => {
 	);
 
 	return (
-		<div className="navbar  font-bold ">
+		<div className="navbar font-bold bg-blue-50">
 			<div className="flex md:hidden ">
 				<div className="dropdown">
 					<label

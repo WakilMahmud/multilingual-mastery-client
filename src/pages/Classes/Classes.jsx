@@ -22,7 +22,7 @@ const Classes = () => {
 	}, []);
 
 	return (
-		<div className="grid grid-col-1 lg:grid-cols-3 gap-4 my-32 px-2 lg:px-0">
+		<div className="grid grid-col-1 lg:grid-cols-3 gap-4 my-32 px-2 lg:px-0 max-w-screen-xl mx-auto">
 			{approvedClasses.map((Class) => (
 				<SelectAClass key={Class?._id} Class={Class} role={role} user={user}></SelectAClass>
 			))}

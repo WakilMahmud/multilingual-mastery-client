@@ -18,7 +18,7 @@ const Instructors = () => {
 
 	return (
 		<>
-			<div className="grid grid-col-1 lg:grid-cols-3 gap-4 my-32 px-2 lg:px-0">
+			<div className="grid grid-col-1 lg:grid-cols-3 gap-4 my-32 px-2 lg:px-0 max-w-screen-xl mx-auto">
 				{instructors.map((instructor) => {
 					return (
 						<div key={instructor?._id} className="card card-compact w-full lg:w-96 bg-base-100 shadow-xl">

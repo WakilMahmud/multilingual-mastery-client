@@ -12,7 +12,7 @@ const PopularInstructors = () => {
 		});
 	}, []);
 	return (
-		<section className="my-32 mx-2 lg:mx-0">
+		<section className="my-32 max-w-screen-xl mx-auto">
 			<h2 className="font-bold text-3xl text-center my-10">Popular Instructors</h2>
 			<div className="grid grid-col-1 lg:grid-cols-3 gap-4">
 				{PopularInstructors.map((instructor, index) => (
